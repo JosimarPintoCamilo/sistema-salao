@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    ProcessPodcast::dispatch()->onQueue('josimar');
+    ProcessPodcast::dispatch();
     return view('welcome');
 });
