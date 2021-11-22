@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Mail\VerificationCode;
+use App\Models\Professionals;
 use App\Models\User;
+use App\Services\CreateProfessionals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -24,47 +27,9 @@ Route::get('/', function () {
 
 /**AUTENTICATION**/
 
-Route::get('/login', function () {
-    return view('auth.login', ['title'=>'Login']);
-})->name('auth.login');
-
-Route::post('/validate', function (Request $req) {
-    if (!isset($req->email)) {
-        throw new Exception("é necessário um email");
-    }
-
-    // $user = User::where('email', $req->email)->first();
-
-    // if (! $user) {
-    //     $user = User::create(['email'=>$req->email]);
-    // }
-
-    // $code = mt_rand(1000, 9999);
-
-    // $user->verification_code = $code;
-    // $user->save();
-
-    // Mail::to($req->email)->send(new VerificationCode($code));
-
-    return view('auth.verification', ['title'=>'Validate', 'email'=>$req->email]);
-})->name('auth.validate');
-
-Route::post('/verification', function (Request $req) {
-    if (!isset($req->code)) {
-        return response()->json(["error"=> true, "message"=> "Digite seu código de quatro dígitos"]);
-    }
-
-    $user = User::where('email', $req->email)->first();
-
-    if ($user->verification_code == $req->code) {
-        Auth::login($user);
-
-        return response()->json(["error"=> false,]);
-    }
-
-
-    return response()->json(["error"=> true,"message"=> "Código inválido"]);
-})->name('auth.verification');
+Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('auth.authenticate');
+Route::post('/verification', [AuthController::class, 'verification'])->name('auth.verification');
 
 Route::get('/logout', function () {
     Auth::logout();
