@@ -3,18 +3,13 @@
     - ao submeter redireciona para /validate
 
 /validate:
-    - busco ou crio o usuario
-    - gero um codigo de verificacao salvo no usuario
-    - envio o email de verificao
-    - redireciono para /verification
+    - busco um usuario com aquele email, se não existir eu crio
+    - gero um codigo de verificacao e salvo no usuario
+    - envio um email de verificao
+    - mostro a view com formulario para confirmar o codigo
+    - ao submeter redireciono para /verification
 
 /verification:
-    - exibe um formulario com um campo para informar o codigo e um botao
-    - redireciono para /verification-two
-
-/verification-two
-    - se o codigo informado corresponder com o gerado: 
-        - faço login do usuario 
-        - redireciono para a dashboard
-    - se não:
-        - redireciono para /verification-two com mensagem de erro
+    - verifico se o código informado é o mesmo que o código no usuário
+    - se for, eu salvo esse usuário na sessao e redireciono para a dashboard
+    - se não, redireciono para a página anterior e mostro uma mensagem de código inválido

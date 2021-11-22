@@ -18,71 +18,61 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+})->name('site');
+
 /**AUTENTICATION**/
 
 Route::get('/login', function () {
+    return view('auth.login', ['title'=>'Login']);
+})->name('auth.login');
 
-    return view('auth.login');
-})->name('login');
-
-Route::get('/logout', function () {
-
-    Auth::logout();
-    echo ("saiu com sucesso");
-})->name('logout');
-
-Route::get('/validate', function (Request $req) {
-
-    if(!isset($req->email))
-    {
+Route::post('/validate', function (Request $req) {
+    if (!isset($req->email)) {
         throw new Exception("é necessário um email");
     }
 
-    $user = User::where('email',$req->email)->first();
+    // $user = User::where('email', $req->email)->first();
 
+    // if (! $user) {
+    //     $user = User::create(['email'=>$req->email]);
+    // }
 
-    if (! $user)
-    {
-        $user = User::create(['email'=>$req->email]);
+    // $code = mt_rand(1000, 9999);
+
+    // $user->verification_code = $code;
+    // $user->save();
+
+    // Mail::to($req->email)->send(new VerificationCode($code));
+
+    return view('auth.verification', ['title'=>'Validate', 'email'=>$req->email]);
+})->name('auth.validate');
+
+Route::post('/verification', function (Request $req) {
+    if (!isset($req->code)) {
+        return response()->json(["error"=> true, "message"=> "Digite seu código de quatro dígitos"]);
     }
 
-    $code = mt_rand(1000, 9999);
+    $user = User::where('email', $req->email)->first();
 
-    $user->verification_code = $code;
-    $user->save();
-
-    Mail::to($req->email)->send( new VerificationCode($code));
-
-    return view('auth.verification', ['email'=>$req->email]);
-})->name('validate');
-
-Route::get('/verification', function (Request $req) {
-
-    $user = User::where('email',$req->email)->first();
-
-    if($user->verification_code == $req->code){
-        echo "codigo correto";
+    if ($user->verification_code == $req->code) {
         Auth::login($user);
 
-        return redirect()->route('dashboard');
-
+        return response()->json(["error"=> false,]);
     }
 
 
-    return "codigo ERRADO";
-})->name('verification');
+    return response()->json(["error"=> true,"message"=> "Código inválido"]);
+})->name('auth.verification');
 
+Route::get('/logout', function () {
+    Auth::logout();
+    echo("saiu com sucesso");
+})->name('auth.logout');
 
-Route::get('/', function () {
-
-    echo("Dashboard - área logada.");
-
-})->name('dashboard')->middleware('auth');
-
-Route::get('/welcome', function () {
-    $user = User::find(1);
-
-    Auth::login($user);
-
-    return view('welcome');
-})->name('welcome');
+Route::name('admin.')->prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return "Bem vindo - Dashboard";
+    })->name('dashboard');
+});

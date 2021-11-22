@@ -11,7 +11,8 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+mix
+    .sass('resources/views/painel/bootstrap.scss', 'public/painel/bootstrap.css')
+    .styles('resources/views/painel/login.css', 'public/painel/login.css')
+    .scripts(['node_modules/jquery/dist/jquery.js'],'public/painel/jquery.js')
+    .version();
