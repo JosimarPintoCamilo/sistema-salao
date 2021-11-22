@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notebook;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ class AuthController extends Controller
     
         if (! $user) {
             $user = User::create(['email'=>$req->email]);
+            $user->notebook()->create();
         }
     
         $code = mt_rand(1000, 9999);

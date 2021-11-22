@@ -5,21 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Professionals extends Model
+class Notebook extends Model
 {
     use HasFactory;
 
-    protected $table = 'professionals';
+    protected $table = 'notebooks';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['user_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function services()
-    {
-        return $this->hasMany(Services::class);
     }
 }
