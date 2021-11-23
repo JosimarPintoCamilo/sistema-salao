@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Professionals extends Model
+class Professional extends Model
 {
     use HasFactory;
 
@@ -20,6 +20,11 @@ class Professionals extends Model
 
     public function services()
     {
-        return $this->hasMany(Services::class);
+        return $this->hasMany(Service::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
     }
 }

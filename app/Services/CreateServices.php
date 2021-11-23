@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\Professionals;
+use App\Models\Professional;
 
 class CreateServices
 {
     protected $professional;
 
-    public function __construct(Professionals $professional)
+    public function __construct(Professional $professional)
     {
         $this->professional = $professional;
     }

@@ -15,11 +15,11 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('professionals_id');
+            $table->unsignedInteger('professional_id');
             $table->string('name');
             $table->unsignedInteger('duration');
 
-            $table->foreign('professionals_id')->references('id')->on('professionals');
+            $table->foreign('professional_id')->references('id')->on('professionals');
 
             $table->timestamps();
         });

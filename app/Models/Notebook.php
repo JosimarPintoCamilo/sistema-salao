@@ -17,4 +17,9 @@ class Notebook extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

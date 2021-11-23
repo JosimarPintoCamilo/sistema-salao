@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function professionals()
     {
-        return $this->hasMany(Professionals::class);
+        return $this->hasMany(Professional::class);
     }
 
     public function notebook()
