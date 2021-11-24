@@ -19,14 +19,13 @@ class CreateEventsTable extends Migration
             $table->date('date');
             $table->time('begin');
             $table->time('end');
+            $table->text('details');
             $table->boolean('confirmed');
 
             $table->unsignedInteger('notebook_id');
-            $table->unsignedInteger('professional_id');
             $table->unsignedInteger('customer_id');
 
             $table->foreign('notebook_id')->references('id')->on('notebooks');
-            $table->foreign('professional_id')->references('id')->on('professionals');
             $table->foreign('customer_id')->references('id')->on('customers');
 
             $table->timestamps();

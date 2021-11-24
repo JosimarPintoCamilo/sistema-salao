@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notebook;
 use App\Models\User;
+use App\Services\CreateUser;
+use App\Services\UpdateCodeVerificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,18 +21,10 @@ class AuthController extends Controller
             throw new \Exception("é necessário um email");
         }
     
-        $user = User::where('email', $req->email)->first();
+        $user = (new CreateUser)->withEmail($req->email);
     
-        if (! $user) {
-            $user = User::create(['email'=>$req->email]);
-            $user->notebook()->create();
-        }
-    
-        $code = mt_rand(1000, 9999);
-    
-        $user->verification_code = $code;
-        $user->save();
-    
+        (new UpdateCodeVerificationUser)->update($user['id']);
+
         // Mail::to($req->email)->send(new VerificationCode($code));
     
         return view('auth.verification', ['title'=>'Validate', 'email'=>$req->email]);
