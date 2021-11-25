@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Create;
 
 use App\Models\User;
 
-class CreateProfessionals
+class CreateProfessional
 {
     protected $user;
 

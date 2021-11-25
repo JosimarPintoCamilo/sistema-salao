@@ -15,18 +15,20 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('begin');
+            $table->dateTime('end');
+
             $table->string('description');
-            $table->date('date');
-            $table->time('begin');
-            $table->time('end');
-            $table->text('details');
+            $table->text('details')->nullable();
             $table->boolean('confirmed');
 
             $table->unsignedInteger('notebook_id');
             $table->unsignedInteger('customer_id');
+            $table->unsignedInteger('professional_id');
 
             $table->foreign('notebook_id')->references('id')->on('notebooks');
             $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('professional_id')->references('id')->on('professionals');
 
             $table->timestamps();
         });

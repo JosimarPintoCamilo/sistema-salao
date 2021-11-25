@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Create;
 
 use App\Models\User;
 
@@ -15,6 +15,6 @@ class CreateUser
             $user->notebook()->create();
         }
 
-        return $user->toArray();
+        return $user;
     }
 }

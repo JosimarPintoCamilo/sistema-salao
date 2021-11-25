@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\CreateUser;
-use App\Services\UpdateCodeVerificationUser;
+use App\Services\Update\UpdateCodeVerificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
